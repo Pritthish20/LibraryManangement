@@ -28,7 +28,7 @@ const AddBook = () => {
     return (
         <div className="flex items-center justify-center min-h-screen bg-blue-50">
             <div className="flex flex-col w-full max-w-3xl bg-white p-8 rounded-lg shadow-lg">
-                <h1 className="text-3xl font-bold text-blue-900 text-center mb-6">Add a New Book</h1>
+                <h1 className="text-3xl font-bold text-blue-900 text-center mb-6">Update Book</h1>
                 <form className="flex flex-col items-center gap-5 mb-8" onSubmit={handleSubmit}>
                     <input
                         name="name"

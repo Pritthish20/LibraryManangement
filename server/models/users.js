@@ -13,7 +13,15 @@ const userSchema = new mongoose.Schema({
   password:{
     type:String,
     required:true,
-},
+  },
+
+  borrowed:[
+    {
+    type:mongoose.Schema.ObjectId,
+    ref:"Books"
+  }
+],
+
   isAdmin:{
     type: Boolean,
     default: false,

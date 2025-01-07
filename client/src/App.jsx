@@ -1,28 +1,21 @@
 import React from 'react'
-import { Route,RouterProvider,createRoutesFromElements,createBrowserRouter } from 'react-router-dom'
-import Login from './pages/auth/Login';
-import Signup from './pages/auth/Signup';
-import AddBook from './pages/admin/AddBook';
+import { Outlet } from 'react-router';
+import {ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-const routes = createBrowserRouter(
-  createRoutesFromElements(
-  <Route path='/'>
-    <Route path='/login' element={<Login/>}/>
-    <Route path='/signup' element={<Signup/>}/>
-    <Route path='/add-book' element={<AddBook/>}/>
-  </Route>
+import Navbar from './components/Navbar';
 
-   
-  )
-);
 
 const App = () => {
   return (
+    <>
+      <ToastContainer/>
+      <Navbar/>
+      <main className='py-3'>
+        <Outlet/>
+      </main>
+    </>
     
-    <div >
-      <RouterProvider router={routes}/>
-    </div>
   )
 }
-
-export default App
+export default App;

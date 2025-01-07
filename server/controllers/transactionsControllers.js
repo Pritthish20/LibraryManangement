@@ -40,11 +40,15 @@ const newTransaction = async (req, res) => {
     const savedTransaction = await newTransaction.save();
 
     if (type === "borrow") {
+      user.borrowed.push(book._id);
+      await user.save();
       book.status = "Not Available";
       await book.save();
     }
 
     if (type === "return") {
+      user.borrowed.pull(book._id);
+      await user.save();
       book.status = "Available";
       await book.save();
     }

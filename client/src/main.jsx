@@ -3,8 +3,37 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 
+import { Route,RouterProvider,createRoutesFromElements,createBrowserRouter } from 'react-router-dom'
+import Login from './pages/auth/Login';
+import Signup from './pages/auth/Signup';
+import AddBook from './pages/admin/AddBook';
+import UpdateBook from './pages/admin/UpdateBook';
+import Dashboard from './pages/admin/Dashboard';
+import Borrowed from './pages/User/Borrowed.jsx'
+import { store } from './redux/store.js'
+import { Provider } from 'react-redux'
+
+
+const routes = createBrowserRouter(
+  createRoutesFromElements(
+  <Route path='/' element={<App/>}>
+    <Route path='/login' element={<Login/>}/>
+    <Route path='/signup' element={<Signup/>}/>
+    <Route path='/add-book' element={<AddBook/>}/>
+    <Route path='/update-book' element={<UpdateBook/>}/>
+    <Route path='/dashboard' element={<Dashboard/>}/>
+    <Route path='/borrowed' element={<Borrowed/>}/>
+
+  </Route>
+
+   
+  )
+);
+
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+  <Provider store={store}>
+    <RouterProvider router={routes}/>
+  </Provider>
+    
+ 
 )
