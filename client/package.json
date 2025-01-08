@@ -19,6 +19,7 @@
     "react-redux": "^9.2.0",
     "react-router": "^6.28.1",
     "react-router-dom": "^6.28.1",
+    "react-tailwindcss-select": "^1.8.5",
     "react-toastify": "^11.0.2"
   },
   "devDependencies": {

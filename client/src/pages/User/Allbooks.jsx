@@ -51,7 +51,7 @@ const AllBooks = () => {
                             value={animal}
                             onChange={handleChange}
                             options={options}
-                            classNames="max-w-[200px]"
+                            classNames="max-w-[200px] "
                             placeholder='timing'
                         />
                     </div>

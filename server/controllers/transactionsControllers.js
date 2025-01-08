@@ -69,5 +69,31 @@ const allTransactions = async (req, res) => {
   }
 };
 
+const getUserTransactions = async (req, res) => {
+  const {userId}=req.params;
 
-export { newTransaction, allTransactions };
+  try {
+    const currentUser = await Users.find({userId})
+    const booksBorrowed=currentUser.borrowed
+    .populate("bookId","title author status year")
+    .populate("userId","name");
+
+    if(booksBorrowed.length === 0){
+      res.status(404).json({message:"No Books Borrowed"});
+    } 
+
+    const countBooksBorrowed= booksBorrowed.length;
+    
+    res.status(200).json({
+       booksBorrowed,
+      countBooks:countBooksBorrowed,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+
+
+}
+
+
+export { newTransaction, allTransactions ,getUserTransactions};

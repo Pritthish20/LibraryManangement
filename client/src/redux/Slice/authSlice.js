@@ -17,7 +17,7 @@ export const authSlice = createSlice({
         localStorage.setItem('expires', expires);
     },
 
-    logout:(state,action)=>{
+    logout:(state)=>{
         state.userInfo = null;
         localStorage.clear();
     }

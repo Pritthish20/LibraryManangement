@@ -7,7 +7,7 @@ const signUp = async (req, res) => {
   const {name, phone, password } = req.body;
 
   if (!name || !phone || !password) {
-    throw new Error("Please fill all required fields");
+    res.status(400).json({message:"Fill all required fields"});
   }
 
   const userExists = await Users.findOne({ name,phone });
@@ -29,8 +29,7 @@ const signUp = async (req, res) => {
       isAdmin: newUser.isAdmin,
     });
   } catch (error) {
-    res.status(400);
-    throw new Error("Invalid user data:", error);
+    res.status(400).json({message:"Invalid user data:", error});
   }
 };
 

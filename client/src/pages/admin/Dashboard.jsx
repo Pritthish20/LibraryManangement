@@ -1,17 +1,32 @@
-import React from "react";
+import React, { useEffect ,useState} from "react";
+import {useGetAllUser} from '../../api/auth'
+
 
 const Dashboard = () => {
+    // const [allUser,setAllUser] = useState({})
+
+    const {fetchAllUser ,allUsers} =useGetAllUser();
+    
+     useEffect(()=>{
+
+        fetchAllUser({})
+
+    },[])
     return (
-        <div className="flex flex-col mt-4 gap-6 px-4 md:px-8">
+        <div className="flex flex-col mt-4 gap-6 px-4 md:px-8 ">
             {/* Summary Cards */}
-            <div className="flex flex-wrap gap-4">
+            <div className="flex justify-center flex-wrap gap-4">
                 <div className="h-48 w-48 flex flex-col items-center justify-center rounded-lg bg-blue-100 shadow-lg border">
                     <span className="text-3xl font-semibold text-blue-600">34</span>
                     <span className="text-gray-600 font-normal text-xl">Total Books</span>
                 </div>
                 <div className="h-48 w-48 flex flex-col items-center justify-center rounded-lg bg-blue-100 shadow-lg border">
                     <span className="text-3xl font-semibold text-blue-600">12</span>
-                    <span className="text-gray-600 font-normal text-xl">Borrowed by You</span>
+                    <span className="text-gray-600 font-normal text-xl">Total Transactions</span>
+                </div>
+                <div className="h-48 w-48 flex flex-col items-center justify-center rounded-lg bg-blue-100 shadow-lg border">
+                    <span className="text-3xl font-semibold text-blue-600">{allUsers.length}</span>
+                    <span className="text-gray-600 font-normal text-xl">Total Users</span>
                 </div>
             </div>
 

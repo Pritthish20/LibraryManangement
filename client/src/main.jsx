@@ -10,6 +10,7 @@ import AddBook from './pages/admin/AddBook';
 import UpdateBook from './pages/admin/UpdateBook';
 import Dashboard from './pages/admin/Dashboard';
 import Borrowed from './pages/User/Borrowed.jsx'
+import Allbooks from './pages/User/Allbooks.jsx'
 import { store } from './redux/store.js'
 import { Provider } from 'react-redux'
 
@@ -23,6 +24,8 @@ const routes = createBrowserRouter(
     <Route path='/update-book' element={<UpdateBook/>}/>
     <Route path='/dashboard' element={<Dashboard/>}/>
     <Route path='/borrowed' element={<Borrowed/>}/>
+    <Route path='/all-books' element={<Allbooks/>}/>
+
 
   </Route>
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSignup } from "../../api/auth";
 
 const Signup = () => {
   const [form, setForm] = useState({
@@ -12,15 +13,29 @@ const Signup = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const {fetchData,loading,error}=useSignup();
+
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log("Signup data:", form);
+
+    await fetchData({
+      name:form.name,
+      phone:form.phone,
+      password:form.password,
+    });
   };
+
+  const isFormValid = form.name && form.password && form.phone;
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8 mx-4 md:mx-0">
-        <h2 className="text-3xl font-semibold text-center mb-6">Sign Up</h2>
+        <h2 className="text-3xl font-semibold text-center mb-6">Sign Up
+          <br />
+          <span className="pt-8 text-xl">Lib-mgmt</span>
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
             <label className="block text-sm font-medium mb-2">Name</label>
@@ -60,11 +75,20 @@ const Signup = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
+            disabled={!isFormValid || loading}
+            className={`w-full text-white py-2 rounded-md  transition duration-200 
+              ${!isFormValid ||loading ?
+                 "bg-gray-500 cursor-not-allowed":
+                 "bg-blue-600 hover:bg-blue-700"}`}
           >
-            Sign Up
+            {loading ? "Signing Up...": "Sign Up" }
           </button>
         </form>
+        {error && (
+          <p className="text-center text-sm text-orange-600 mt-4">
+          {error || "An error occurred. Please try again."}
+        </p>
+        )}
         <p className="text-center text-sm mt-4">
           Already have an account?{" "}
           <Link to="/login" className="text-blue-600 hover:underline">

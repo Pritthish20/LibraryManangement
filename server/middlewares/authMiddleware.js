@@ -14,12 +14,10 @@ const auth = async(req,res,next)=>{
             req.user=await Users.findById(decode.userId).select("-password");
             next();
         } catch (error) {
-            res.status(401);
-            throw new Error("Not authorized, token is invalid");
+            res.status(401).json({error:"Not authorized, token is invalid"});
         }
     }else{
-        res.status(401);
-        throw new Error("Not authorized, no token found");
+        res.status(401).json("Not authorized, no token found");
     }
 };
 

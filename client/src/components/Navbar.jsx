@@ -1,9 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PiStudentDuotone } from "react-icons/pi";
+import { useLogout } from "../api/auth";
+import  {toast} from "react-toastify"
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const {fetchData,loading,error}=useLogout();
+
+    const handleLogout = ()=>{
+        fetchData();
+    }
+    useEffect(()=>{
+        if(error){
+            toast.error("Error in Loging Out")
+        }
+    },[error]);
 
     return (
         <nav className="bg-blue-950 text-white p-4 shadow-md">
@@ -33,6 +46,13 @@ const Navbar = () => {
                         className="text-xl font-medium hover:text-blue-400 transition duration-200"
                     >
                         Dashboard
+                    </Link>
+                    <Link
+                        to="/"
+                        onClick={handleLogout}
+                        className="text-lg font-medium hover:text-blue-300 transition duration-200"
+                    >
+                        {loading?"Loging Out":"Logout"}
                     </Link>
                 </div>
 
@@ -65,21 +85,28 @@ const Navbar = () => {
                 <div className="md:hidden bg-blue-900 text-white">
                     <Link
                         to="/"
-                        className="block px-4 py-2 text-sm font-medium hover:bg-gray-700 hover:text-blue-400 transition duration-200"
+                        className="block px-4 py-2 text-sm font-medium hover:bg-blue-200 hover:text-blue-800 transition duration-200"
                     >
                         Books
                     </Link>
                     <Link
                         to="/add-books"
-                        className="block px-4 py-2 text-sm font-medium hover:bg-gray-700 hover:text-blue-400 transition duration-200"
+                        className="block px-4 py-2 text-sm font-medium hover:bg-blue-200 hover:text-blue-800 transition duration-200"
                     >
                         Add Book
                     </Link>
                     <Link
                         to="/dashboard"
-                        className="block px-4 py-2 text-sm font-medium hover:bg-gray-700 hover:text-blue-400 transition duration-200"
+                        className="block px-4 py-2 text-sm font-medium hover:bg-blue-200 hover:text-blue-800 transition duration-200"
                     >
                         Dashboard
+                    </Link>
+                    <Link
+                        to="/"
+                        onClick={handleLogout}
+                        className="block px-4 py-2 text-sm font-medium hover:bg-blue-200 hover:text-blue-800 transition duration-200"
+                    >
+                        {loading?"Loging Out":"Logout"}
                     </Link>
                 </div>
             )}
