@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../../api/auth";
 
 const Login = () => {
@@ -8,6 +8,8 @@ const Login = () => {
     phone: "",
     password: "",
   });
+
+  const navigate=useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -19,11 +21,8 @@ const Login = () => {
     e.preventDefault();
     console.log("Login Data: " ,form)
     
-      await fetchData({
-        name:form.name,
-        phone:form.phone,
-        password:form.password,
-      });
+      await fetchData(form);
+      navigate("/");
     
   };
 

@@ -20,11 +20,11 @@ const routes = createBrowserRouter(
   <Route path='/' element={<App/>}>
     <Route path='/login' element={<Login/>}/>
     <Route path='/signup' element={<Signup/>}/>
-    <Route path='/add-book' element={<AddBook/>}/>
+    <Route path='/add-books' element={<AddBook/>}/>
     <Route path='/update-book' element={<UpdateBook/>}/>
     <Route path='/dashboard' element={<Dashboard/>}/>
     <Route path='/borrowed' element={<Borrowed/>}/>
-    <Route path='/all-books' element={<Allbooks/>}/>
+    <Route path='/' element={<Allbooks/>}/>
 
 
   </Route>

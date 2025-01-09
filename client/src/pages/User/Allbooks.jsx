@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Select from 'react-tailwindcss-select';
-import axios from "axios";
+import {toast} from 'react-toastify'
+import { useSelector } from 'react-redux';
+import {useGetAllBooks} from '../../api/book'
 
 const options = [
     { value: "fox", label: "🦊 Fox" },
@@ -9,27 +11,14 @@ const options = [
 ];
 
 const AllBooks = () => {
-    const [books, setBooks] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const {fetchAllBooks,allBooks,loading,error}=useGetAllBooks()
 
     useEffect(() => {
-        const fetchAllBooks = async () => {
-            setLoading(true);
-            setError(null);
-
-            try {
-                const response = await axios.get("http://localhost:3000/api/v1/books/all-books");
-                setBooks(response.data);
-                console.log(response.data);
-            } catch (err) {
-                setError(err.response ? err.response.data : "An error occurred");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchAllBooks();
+       fetchAllBooks({})
+       console.log(allBooks);
+       if(error){
+        toast.error("Error Loading Books")
+       }
     }, [])
 
 
@@ -71,38 +60,33 @@ const AllBooks = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {books.map((_, index) => (
+                            {Array.isArray(allBooks) && allBooks.map((b) => (
                                 <tr
                                     className="text-gray-800 hover:bg-gray-100 text-sm"
-                                    key={index}
+                                    key={b._id}
                                 >
                                     <td className="px-4 py-3 border">
                                         <div className="flex items-center">
                                             <div className="w-8 h-8 mr-3 rounded-full bg-gray-200"></div>
                                             <div>
                                                 <p className="font-medium">
-                                                    Book {index}{' '}
-                                                    <span className="font-light text-gray-400">
-                                                        Subtitle {index}
-                                                    </span>
-                                                </p>
-                                                <p className="text-xs text-gray-600">
-                                                    Detail {index}
+                                                    {b.title}
                                                 </p>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-4 py-3 border text-center">
-                                        Author {index}
+                                        {b.author}
                                     </td>
                                     <td className="px-4 py-3 border text-center">
-                                        {2000 + index}
+                                        {b.year}
                                     </td>
                                     <td className="px-4 py-3 border text-center">
                                         <span className="px-2 py-1 bg-green-100 text-green-600 rounded">
                                             Available
                                         </span>
                                     </td>
+                                    
                                 </tr>
                             ))}
                         </tbody>

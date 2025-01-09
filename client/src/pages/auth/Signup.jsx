@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSignup } from "../../api/auth";
 
 const Signup = () => {
@@ -9,6 +9,7 @@ const Signup = () => {
     password: "",
   });
 
+  const navigate=useNavigate();
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -20,11 +21,8 @@ const Signup = () => {
     e.preventDefault();
     console.log("Signup data:", form);
 
-    await fetchData({
-      name:form.name,
-      phone:form.phone,
-      password:form.password,
-    });
+    await fetchData(form);
+    navigate("/login");
   };
 
   const isFormValid = form.name && form.password && form.phone;

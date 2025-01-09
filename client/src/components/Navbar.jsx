@@ -3,11 +3,26 @@ import { Link } from "react-router-dom";
 import { PiStudentDuotone } from "react-icons/pi";
 import { useLogout } from "../api/auth";
 import  {toast} from "react-toastify"
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+    const userInfo=useSelector((state)=>state.auth.userInfo)
     const {fetchData,loading,error}=useLogout();
+
+    const userMenu=[
+        {label:"Books", to:"/",icon:""},
+        ...(userInfo?.isAdmin ? [{label:"Dashboard", to:"/dashboard",icon:""}] :[]),
+        {label:"Borrowed", to:"/borrowed",icon:""},
+        {label:`${userInfo?.name}`, to:"",icon:""},
+        {label:`${loading? "Loging Out":"Logout"}`, to:"/",icon:""}
+    ]
+        
+    const nonUserMenu=[
+        {label: "Login", to:"/login", icon:""},
+        {label: "Signup", to:"/signup", icon:""}
+    ]
+
 
     const handleLogout = ()=>{
         fetchData();
@@ -28,34 +43,22 @@ const Navbar = () => {
                 </div>
 
                 {/* Navigation Links */}
-                <div className="hidden md:flex gap-6">
-                    <Link
-                        to="/"
+                
+                    <div className="hidden md:flex gap-6">
+                    {(userInfo ? userMenu:nonUserMenu).map((menu,index)=>(
+                        <Link
+                        key={index}
+                        to={menu.to}
+                        onClick={menu.to==="/" ? handleLogout : ()=>{} }
                         className="text-xl font-medium hover:text-blue-400 transition duration-200"
                     >
-                        Books
+                        {menu.label}
                     </Link>
-                    <Link
-                        to="/add-books"
-                        className="text-xl font-medium hover:text-blue-400 transition duration-200"
-                    >
-                        Add Book
-                    </Link>
-                    <Link
-                        to="/dashboard"
-                        className="text-xl font-medium hover:text-blue-400 transition duration-200"
-                    >
-                        Dashboard
-                    </Link>
-                    <Link
-                        to="/"
-                        onClick={handleLogout}
-                        className="text-lg font-medium hover:text-blue-300 transition duration-200"
-                    >
-                        {loading?"Loging Out":"Logout"}
-                    </Link>
+                    ))}
+                    
                 </div>
 
+                
                 {/* Mobile Menu (Hamburger Icon) */}
                 <div className="md:hidden">
                     <button
@@ -82,34 +85,22 @@ const Navbar = () => {
 
             {/* Mobile Menu Dropdown */}
             {isMenuOpen && (
-                <div className="md:hidden bg-blue-900 text-white">
-                    <Link
-                        to="/"
+                        <div className="md:hidden bg-blue-900 text-white">
+                    {(userInfo ? userMenu:nonUserMenu).map((menu, index)=>(
+                        <Link
+                        key={index}
+                        to={menu.to}
+                        onClick={menu.label==="Logout" ? handleLogout : ()=>{} }
                         className="block px-4 py-2 text-sm font-medium hover:bg-blue-200 hover:text-blue-800 transition duration-200"
                     >
-                        Books
+                        {menu.label}
                     </Link>
-                    <Link
-                        to="/add-books"
-                        className="block px-4 py-2 text-sm font-medium hover:bg-blue-200 hover:text-blue-800 transition duration-200"
-                    >
-                        Add Book
-                    </Link>
-                    <Link
-                        to="/dashboard"
-                        className="block px-4 py-2 text-sm font-medium hover:bg-blue-200 hover:text-blue-800 transition duration-200"
-                    >
-                        Dashboard
-                    </Link>
-                    <Link
-                        to="/"
-                        onClick={handleLogout}
-                        className="block px-4 py-2 text-sm font-medium hover:bg-blue-200 hover:text-blue-800 transition duration-200"
-                    >
-                        {loading?"Loging Out":"Logout"}
-                    </Link>
+                    ))}
+                    
                 </div>
+                   
             )}
+            
         </nav>
     );
 };
