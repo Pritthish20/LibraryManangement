@@ -49,7 +49,7 @@ const Navbar = () => {
                         <Link
                         key={index}
                         to={menu.to}
-                        onClick={menu.to==="/" ? handleLogout : ()=>{} }
+                        onClick={menu.label==="Logout" ? handleLogout : ()=>{} }
                         className="text-xl font-medium hover:text-blue-400 transition duration-200"
                     >
                         {menu.label}
@@ -90,7 +90,12 @@ const Navbar = () => {
                         <Link
                         key={index}
                         to={menu.to}
-                        onClick={menu.label==="Logout" ? handleLogout : ()=>{} }
+                        onClick={() => {
+                            if (menu.label === "Logout") {
+                                handleLogout();
+                            }
+                            setIsMenuOpen(false);
+                        }}
                         className="block px-4 py-2 text-sm font-medium hover:bg-blue-200 hover:text-blue-800 transition duration-200"
                     >
                         {menu.label}

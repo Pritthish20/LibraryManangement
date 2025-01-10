@@ -7,7 +7,7 @@ const addBook=async(req,res)=>{
         res.json(savedBook);
         
     } catch (error) {
-        req.status(500).json({error: error.message});
+        return req.status(500).json({error: error.message});
     }
 }
 

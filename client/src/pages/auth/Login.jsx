@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../../api/auth";
+import {toast} from "react-toastify"
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -22,6 +23,7 @@ const Login = () => {
     console.log("Login Data: " ,form)
     
       await fetchData(form);
+      toast.success("Login Success")
       navigate("/");
     
   };

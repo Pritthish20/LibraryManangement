@@ -62,7 +62,9 @@ const newTransaction = async (req, res) => {
 
 const allTransactions = async (req, res) => {
   try {
-    const allTransaction = await Transactions.find({});
+    const allTransaction = await Transactions.find({})
+    .populate('bookId','title')
+    .populate('userId','name');
     res.json(allTransaction);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -74,9 +76,14 @@ const getUserTransactions = async (req, res) => {
 
   try {
     const currentUser = await Users.find({userId})
-    const booksBorrowed=currentUser.borrowed
-    .populate("bookId","title author status year")
-    .populate("userId","name");
+    .populate({
+      path: 'borrowed',
+      populate: {
+        paht:bookId,
+        select:'title author year'
+      }
+    })
+    const booksBorrowed=currentUser.borrowed;
 
     if(booksBorrowed.length === 0){
       res.status(404).json({message:"No Books Borrowed"});

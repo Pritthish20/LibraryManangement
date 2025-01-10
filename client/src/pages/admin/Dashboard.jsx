@@ -1,23 +1,37 @@
 import React, { useEffect ,useState} from "react";
 import {useGetAllUser} from '../../api/auth'
+import { useGetAllBooks } from "../../api/book";
+import { useGetAllTransactions } from "../../api/transactions";
+import AddBook from "../../components/AddBook";
+import UpdateBook from "../../components/UpdateBook";
+import DeleteBook from "../../components/DeleteBook";
 
 
 const Dashboard = () => {
-    // const [allUser,setAllUser] = useState({})
+    const [bookId,setBookId] = useState("")
+
+    const [addBookModel,setAddBookModel] =useState(false);
+    const [updateBookModel,setUpdateBookModel] =useState(false);
+    const [deleteBookModel,setDeleteBookModel] =useState(false);
 
     const {fetchAllUser ,allUsers} =useGetAllUser();
+
+    const {fetchAllBooks,allBooks,loading}=useGetAllBooks();
+
+    const {fetchAllTransactions,allTransactions}=useGetAllTransactions();
     
      useEffect(()=>{
 
-        fetchAllUser({})
-
+        fetchAllUser();
+        fetchAllBooks();
+        fetchAllTransactions();
     },[])
     return (
         <div className="flex flex-col mt-4 gap-6 px-4 md:px-8 ">
             {/* Summary Cards */}
             <div className="flex justify-center flex-wrap gap-4">
                 <div className="h-48 w-48 flex flex-col items-center justify-center rounded-lg bg-blue-100 shadow-lg border">
-                    <span className="text-3xl font-semibold text-blue-600">34</span>
+                    <span className="text-3xl font-semibold text-blue-600">{allBooks.length}</span>
                     <span className="text-gray-600 font-normal text-xl">Total Books</span>
                 </div>
                 <div className="h-48 w-48 flex flex-col items-center justify-center rounded-lg bg-blue-100 shadow-lg border">
@@ -27,6 +41,10 @@ const Dashboard = () => {
                 <div className="h-48 w-48 flex flex-col items-center justify-center rounded-lg bg-blue-100 shadow-lg border">
                     <span className="text-3xl font-semibold text-blue-600">{allUsers.length}</span>
                     <span className="text-gray-600 font-normal text-xl">Total Users</span>
+                </div>
+                <div className="h-48 w-48 flex flex-col items-center justify-center bg-blue-200 rounded-lg shadow-lg border ">
+                    <button onClick={()=>{setAddBookModel(true)}} className="h-16 w-36 bg-blue-700 hover:bg-blue-600 hover:text-white rounded-2xl text-2xl font-semibold text-gray-200 shadow-md shadow-blue-900 border-blue-800">Add Book</button>
+                   
                 </div>
             </div>
 
@@ -46,19 +64,22 @@ const Dashboard = () => {
 
                                 </tr>
                             </thead>
-                            <tbody>
-                                {Array(20).fill(1).map((_, index) => (
-                                    <tr
-                                        className="text-gray-800 hover:bg-gray-100 text-sm"
-                                        key={index}
-                                    >
-                                        <td className="px-4 py-3 border">User {index + 1}</td>
-                                        <td className="px-4 py-3 border">Book {index + 1}</td>
-                                        <td className="px-4 py-3 border">Date</td>
-                                        <td className="px-4 py-3 border">Borrow</td>
-                                    </tr>
-                                ))}
-                            </tbody>
+                           {loading ? ("loading") :(
+                             <tbody>
+                             {Array.isArray(allTransactions) &&
+                                allTransactions.map((tra, index) => (
+                                 <tr
+                                     className="text-gray-800 hover:bg-gray-100 text-sm"
+                                     key={index}
+                                 >
+                                     <td className="px-4 py-3 border">{tra.userId.name}</td>
+                                     <td className="px-4 py-3 border">B{tra.bookId.title}</td>
+                                     <td className="px-4 py-3 border">{tra.date.substring(0,10)}</td>
+                                     <td className="px-4 py-3 border">{tra.type}</td>
+                                 </tr>
+                             ))}
+                         </tbody>
+                           )}
                         </table>
                     </div>
                 </div>
@@ -77,32 +98,52 @@ const Dashboard = () => {
                                     <th className="px-4 py-3 border">Delete</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {Array(20).fill(1).map((_, index) => (
+                            {loading ? ("loading") :(
+                                <tbody>
+                                {Array.isArray(allBooks) &&
+                                allBooks.map((b, index) => (
                                     <tr
                                         className="text-gray-800 hover:bg-gray-100 text-sm"
                                         key={index}
                                     >
-                                        <td className="px-4 py-3 border">Book {index + 1}</td>
-                                        <td className="px-4 py-3 border">Author {index + 1}</td>
-                                        <td className="px-4 py-3 border">{2000 + index}</td>
+                                        <td className="px-4 py-3 border">{b.title}</td>
+                                        <td className="px-4 py-3 border">{b.author}</td>
+                                        <td className="px-4 py-3 border">{b.year}</td>
                                         <td className="px-4 py-3 border text-center">
-                                            <button className="px-2 py-1 bg-blue-100 text-blue-600 rounded cursor-pointer">
+                                            <button onClick={()=>{setUpdateBookModel(true); setBookId(b._id);}} className="px-2 py-1 bg-blue-100 text-blue-600 rounded cursor-pointer">
                                                 Update
                                             </button>
                                         </td>
                                         <td className="px-4 py-3 border text-center">
-                                            <button className="px-2 py-1 bg-red-100 text-red-600 rounded cursor-pointer">
+                                            <button onClick={()=>{setDeleteBookModel(true); setBookId(b._id);}}className="px-2 py-1 bg-red-100 text-red-600 rounded cursor-pointer">
                                                 Delete
                                             </button>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
+                            )}
                         </table>
                     </div>
                 </div>
             </div>
+            {addBookModel && (
+                <AddBook
+                setModal={setAddBookModel}
+                />
+            )}
+            {updateBookModel && (
+                <UpdateBook
+                setModal={setUpdateBookModel}
+                bookId={bookId}
+                />
+            )}
+            {deleteBookModel && (
+                <DeleteBook
+                setModal={setDeleteBookModel}
+                bookId={bookId}
+                />
+            )}
         </div>
     );
 };
