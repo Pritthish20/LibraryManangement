@@ -75,17 +75,15 @@ const getUserTransactions = async (req, res) => {
   const {userId}=req.params;
 
   try {
-    const currentUser = await Users.find({userId})
-    .populate({
-      path: 'borrowed',
-      populate: {
-        paht:bookId,
-        select:'title author year'
-      }
-    })
+    const currentUser = await Users.findById(userId)
+      .populate('borrowed');
     const booksBorrowed=currentUser.borrowed;
 
-    if(booksBorrowed.length === 0){
+    if(!booksBorrowed){
+      res.status(404).json({message:"No Books Borrowed"});
+    }
+
+    if(booksBorrowed && booksBorrowed.length === 0){
       res.status(404).json({message:"No Books Borrowed"});
     } 
 

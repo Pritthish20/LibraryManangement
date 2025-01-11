@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useGetSpecificBook } from '../api/book';
+import{useNewTransaction} from '../api/transactions'
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
-import { useNewTransaction } from '../api/transactions';
 
-const ReturnBook = ({ setModal, bookId ,userId}) => {
+const BorrowBook = ({ setModal, bookId,userId }) => {
   const { fetchBookData, specificBook } = useGetSpecificBook();
 
   const loadBookData = async () => {
@@ -15,19 +15,19 @@ const ReturnBook = ({ setModal, bookId ,userId}) => {
     if (bookId) loadBookData();
   }, [bookId]);
 
-  const { fetchNewTransactions, loading } = useNewTransaction();
+  const {fetchNewTransactions}=useNewTransaction();
   const navigate = useNavigate();
 
-  const handleReturn = async (e) => {
+  const handleBorrow = async (e) => {
     e.preventDefault();
     await fetchNewTransactions({
-          userId: userId,
-          bookId: bookId,
-          type:'return'
-        })
-        toast.success('Book borrowed successfully');
-        navigate('/borrowed');
-        setModal(false);
+      userId: userId,
+      bookId: bookId,
+      type:'borrow'
+    })
+    toast.success('Book borrowed successfully');
+    navigate('/borrowed');
+    setModal(false);
   };
 
   return (
@@ -45,10 +45,10 @@ const ReturnBook = ({ setModal, bookId ,userId}) => {
 
         {/* Modal content */}
         <h2 className="text-xl font-bold text-gray-800 text-center mb-4">
-          Confirm Return
+          Confirm Borrow
         </h2>
         <p className="text-center text-gray-600 mb-6">
-          Are you sure you want to return the following book? Please confirm your action.
+          Are you sure you want to borrow the following book? Please confirm your action.
         </p>
         {/* Book details */}
         <div className="p-4 bg-gray-100 rounded-lg shadow-inner mb-6">
@@ -74,10 +74,10 @@ const ReturnBook = ({ setModal, bookId ,userId}) => {
             Cancel
           </button>
           <button
-            onClick={handleReturn}
-            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-200"
+            onClick={handleBorrow}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200"
           >
-            Return
+            Borrow
           </button>
         </div>
       </div>
@@ -85,4 +85,4 @@ const ReturnBook = ({ setModal, bookId ,userId}) => {
   );
 };
 
-export default ReturnBook;
+export default BorrowBook;

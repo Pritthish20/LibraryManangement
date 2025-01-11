@@ -20,6 +20,6 @@ const bookSchema = new mongoose.Schema({
     enum: ["Available", "Not Available"],
     default: "Available",
   }
-});
+}, {timestamps: true});
 
 export default mongoose.model("Books", bookSchema);

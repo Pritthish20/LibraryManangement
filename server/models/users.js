@@ -17,15 +17,15 @@ const userSchema = new mongoose.Schema({
 
   borrowed:[
     {
-    type:mongoose.Schema.ObjectId,
-    ref:"Books"
-  }
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Books',  // Reference to the 'Books' model
+  },
 ],
 
   isAdmin:{
     type: Boolean,
     default: false,
   }
-});
+}, {timestamps: true});
 
 export default mongoose.model("Users", userSchema);

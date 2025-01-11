@@ -3,6 +3,7 @@ import Select from 'react-tailwindcss-select';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { useGetAllBooks } from '../../api/book';
+import BorrowBook from '../../components/BorrowBook'
 
 const options = [
     { value: "fox", label: "🦊 Fox" },
@@ -12,10 +13,13 @@ const options = [
 
 const AllBooks = () => {
     const { fetchAllBooks, allBooks, loading, error } = useGetAllBooks();
+    const userInfo=useSelector((state)=>state.auth.userInfo);
+
+    const [Modal,setModal]=useState(false);
+    const [bookId,setBookId]=useState("");
 
     useEffect(() => {
         fetchAllBooks({});
-        console.log(allBooks);
         if (error) {
             toast.error("Error Loading Books");
         }
@@ -101,6 +105,7 @@ const AllBooks = () => {
                                         </td>
                                         <td className="px-4 py-3 border text-center">
                                             <button
+                                            onClick={()=>{setModal(true); setBookId(b._id);}}
                                                 className={`px-2 py-1 rounded ${
                                                     b.status === "Available"
                                                         ? "bg-green-100 text-green-800"
@@ -120,6 +125,13 @@ const AllBooks = () => {
                     </table>
                 )}
             </div>
+            {Modal && (
+                <BorrowBook
+                setModal={setModal}
+                bookId={bookId}
+                userId={userInfo._id}
+                />
+            )}
         </div>
     );
 };

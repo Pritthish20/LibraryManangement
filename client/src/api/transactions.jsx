@@ -40,7 +40,7 @@ export const useSpecificTransactions = ()=>{
         setError(null);
         setSuccess(false);
         try {
-            const res=await axios.get(`${TRANSACTION_URL}/book/${userId}`,
+            const res=await axios.get(`${TRANSACTION_URL}/${userId}`,
                 {withCredentials:true}
             );
             console.log(res.data);
