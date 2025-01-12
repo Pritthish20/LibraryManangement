@@ -24,7 +24,7 @@ const Signup = () => {
 
     await fetchData(form);
     toast.success("Signup successful")
-    navigate("/login");
+    navigate("/");
   };
 
   const isFormValid = form.name && form.password && form.phone;
