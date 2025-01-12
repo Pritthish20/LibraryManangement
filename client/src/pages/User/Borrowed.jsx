@@ -51,7 +51,7 @@ const Borrowed = () => {
                      <th className="px-4 py-3">Return</th>
                  </tr>
              </thead>
-             {loading ? ("loading" ) : (
+             {loading ? ("loading..." ) : (
                  <tbody>
                  {Array.isArray(borrowBooks) && 
                  borrowBooks.map((st, index) => (

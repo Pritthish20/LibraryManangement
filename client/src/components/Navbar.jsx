@@ -15,7 +15,7 @@ const Navbar = () => {
         {label:"Books", to:"/",icon:""},
         ...(userInfo?.isAdmin ? [{label:"Dashboard", to:"/dashboard",icon:""}] :[]),
         {label:"Borrowed", to:"/borrowed",icon:""},
-        {label:`${userInfo?.name}`, to:"",icon:""},
+        {label:`${userInfo?.name || "Login"}`, to:"",icon:""},
         {label:`${loading? "Loging Out":"Logout"}`, to:"/",icon:""}
     ]
         
@@ -46,7 +46,7 @@ const Navbar = () => {
                 {/* Navigation Links */}
                 
                     <div className="hidden md:flex gap-6">
-                    {(userInfo ? userMenu:nonUserMenu).map((menu,index)=>(
+                    {(userInfo? userMenu:nonUserMenu).map((menu,index)=>(
                         <Link
                         key={index}
                         to={menu.to}

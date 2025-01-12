@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { useGetAllBooks } from '../../api/book';
 import BorrowBook from '../../components/BorrowBook'
+import { useNavigate } from 'react-router';
 
 const options = [
     { value: "newest", label: "Newest" },
@@ -15,10 +16,9 @@ const options = [
 const AllBooks = () => {
     const { fetchAllBooks, allBooks, loading, error } = useGetAllBooks();
     const userInfo=useSelector((state)=>state.auth.userInfo);
-
+    const navigate=useNavigate();
     const [Modal,setModal]=useState(false);
     const [bookId,setBookId]=useState("");
-
     const [searchTerm, setSearchTerm] = useState("");
     const [sortOrder, setSortOrder] = useState(null);
 
@@ -48,6 +48,15 @@ const AllBooks = () => {
             toast.error("Error Loading Books");
         }
     }, []);
+
+    const handleBorrow =()=>{
+        if(!userInfo){
+            toast.error("Login To Borrow Book");
+            navigate("/login")
+        }
+        setModal(true);
+         setBookId(b._id);
+    }
 
     const handleSearch=(e) => {
         setSearchTerm(e.target.value.toLowerCase());
@@ -131,7 +140,7 @@ const AllBooks = () => {
                                         </td>
                                         <td className="px-4 py-3 border text-center">
                                             <button
-                                            onClick={()=>{setModal(true); setBookId(b._id);}}
+                                            onClick={handleBorrow}
                                                 className={`px-2 py-1 rounded ${
                                                     b.status === "Available"
                                                         ? "bg-green-100 text-green-800"
