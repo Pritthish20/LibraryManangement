@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 //middleware
 
 app.use(cors({
-   origin: ["http://localhost:5173"],
+   origin: ["http://localhost:5173","https://library-manangement-u6ny.vercel.app"],
     credentials: true 
   }));
 
