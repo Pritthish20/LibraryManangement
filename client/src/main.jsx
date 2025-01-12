@@ -6,8 +6,6 @@ import App from './App.jsx'
 import { Route,RouterProvider,createRoutesFromElements,createBrowserRouter } from 'react-router-dom'
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
-import AddBook from './components/AddBook.jsx';
-import UpdateBook from './components/UpdateBook.jsx';
 import Dashboard from './pages/admin/Dashboard';
 import Borrowed from './pages/User/Borrowed.jsx'
 import Allbooks from './pages/User/Allbooks.jsx'
