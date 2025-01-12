@@ -25,7 +25,7 @@ const ReturnBook = ({ setModal, bookId ,userId}) => {
           bookId: bookId,
           type:'return'
         })
-        toast.success('Book borrowed successfully');
+        toast.success('Book returned successfully');
         navigate('/borrowed');
         setModal(false);
   };

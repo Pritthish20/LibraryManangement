@@ -37,51 +37,57 @@ const Borrowed = () => {
            Your Borrowings 
         </h2>
         <div className="overflow-x-auto">
-            <table className="w-full bg-white border-collapse border border-gray-200">
-                <thead>
-                    <tr className="bg-gray-100 text-gray-700 text-sm font-bold uppercase">
-                        <th className="px-4 py-3">Name</th>
-                        <th className="px-4 py-3">Author</th>
-                        <th className="px-4 py-3">Publish Year</th>
-                        <th className="px-4 py-3">Return</th>
-                    </tr>
-                </thead>
-                {loading ? ("loading" ) : (
-                    <tbody>
-                    {Array.isArray(borrowBooks) && 
-                    borrowBooks.map((st, index) => (
-                            <tr
-                                className="text-gray-800 hover:bg-gray-100 text-sm"
-                                key={index}
-                            >
-                                <td className="px-4 py-3 border">
-                                    <div className="flex items-center">
-                                        <div className="w-8 h-8 mr-3 rounded-full bg-gray-200"></div>
-                                        <div>
-                                            <p className="font-medium">
-                                                {st.title}
-                                            </p>
-                                            
-                                        </div>
-                                    </div>
-                                </td>
-                                <td className="px-4 py-3 border text-center">
-                                    {st.author}
-                                </td>
-                                <td className="px-4 py-3 border text-center">
-                                    {st.year}
-                                </td>
-                                <td className="px-4 py-3 border text-center">
-                                    <button onClick={()=>{setBookId(st._id); setModal(true);}} 
-                                    className="px-3 py-1 text-sm bg-green-100 text-green-600 rounded hover:bg-green-200">
-                                        Return
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                </tbody>
-                )}
-            </table>
+           {borrowCount === 0 ? (
+            <h2 className="text-center text-lg  text-gray-600 py-4 border-b">
+            No Borrow Books, Borrow a book now.
+         </h2>
+           ): (
+             <table className="w-full bg-white border-collapse border border-gray-200">
+             <thead>
+                 <tr className="bg-gray-100 text-gray-700 text-sm font-bold uppercase">
+                     <th className="px-4 py-3">Name</th>
+                     <th className="px-4 py-3">Author</th>
+                     <th className="px-4 py-3">Publish Year</th>
+                     <th className="px-4 py-3">Return</th>
+                 </tr>
+             </thead>
+             {loading ? ("loading" ) : (
+                 <tbody>
+                 {Array.isArray(borrowBooks) && 
+                 borrowBooks.map((st, index) => (
+                         <tr
+                             className="text-gray-800 hover:bg-gray-100 text-sm"
+                             key={index}
+                         >
+                             <td className="px-4 py-3 border">
+                                 <div className="flex items-center">
+                                     <div className="w-8 h-8 mr-3 rounded-full bg-gray-200"></div>
+                                     <div>
+                                         <p className="font-medium">
+                                             {st.title}
+                                         </p>
+                                         
+                                     </div>
+                                 </div>
+                             </td>
+                             <td className="px-4 py-3 border text-center">
+                                 {st.author}
+                             </td>
+                             <td className="px-4 py-3 border text-center">
+                                 {st.year}
+                             </td>
+                             <td className="px-4 py-3 border text-center">
+                                 <button onClick={()=>{setBookId(st._id); setModal(true);}} 
+                                 className="px-3 py-1 text-sm bg-green-100 text-green-600 rounded hover:bg-green-200">
+                                     Return
+                                 </button>
+                             </td>
+                         </tr>
+                     ))}
+             </tbody>
+             )}
+         </table>
+           )}
         </div>
     </div>
     {Modal && (

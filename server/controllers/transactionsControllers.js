@@ -79,15 +79,11 @@ const getUserTransactions = async (req, res) => {
       .populate('borrowed');
     const booksBorrowed=currentUser.borrowed;
 
-    if(!booksBorrowed){
-      res.status(404).json({message:"No Books Borrowed"});
-    }
+    // if(booksBorrowed && booksBorrowed.length === 0){
+    //   return res.status(404).json({message:"No Books Borrowed"});
+    // } 
 
-    if(booksBorrowed && booksBorrowed.length === 0){
-      res.status(404).json({message:"No Books Borrowed"});
-    } 
-
-    const countBooksBorrowed= booksBorrowed.length;
+    const countBooksBorrowed= booksBorrowed.length || 0;
     
     res.status(200).json({
        booksBorrowed,

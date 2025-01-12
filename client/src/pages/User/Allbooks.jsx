@@ -6,9 +6,10 @@ import { useGetAllBooks } from '../../api/book';
 import BorrowBook from '../../components/BorrowBook'
 
 const options = [
-    { value: "fox", label: "🦊 Fox" },
-    { value: "Butterfly", label: "🦋 Butterfly" },
-    { value: "Honeybee", label: "🐝 Honeybee" }
+    { value: "newest", label: "Newest" },
+    { value: "oldest", label: "Oldest" },
+    { value: "available", label: "Available" },
+    { value: "none", label: "None" },
 ];
 
 const AllBooks = () => {
@@ -18,6 +19,29 @@ const AllBooks = () => {
     const [Modal,setModal]=useState(false);
     const [bookId,setBookId]=useState("");
 
+    const [searchTerm, setSearchTerm] = useState("");
+    const [sortOrder, setSortOrder] = useState(null);
+
+    const filteredBooks = (Array.isArray(allBooks) ? allBooks:[]).filter((book) =>
+            book.title.toLowerCase().includes(searchTerm) ||
+            book.author.toLowerCase().includes(searchTerm)
+        )
+        .sort((a, b) => {
+            if (sortOrder?.value === "newest") {
+                return b.year - a.year;
+            }
+            if (sortOrder?.value === "oldest") {
+                return a.year - b.year;
+            }
+            if(sortOrder?.value === "available") {
+                return a.status === "Available" && b.status !== "Available" ? -1 : 
+                b.status === "Available" && a.status !== "Available" ? 1 : 0;
+            }
+            return 0;
+        });
+
+
+
     useEffect(() => {
         fetchAllBooks({});
         if (error) {
@@ -25,11 +49,12 @@ const AllBooks = () => {
         }
     }, []);
 
-    const [animal, setAnimal] = useState(null);
+    const handleSearch=(e) => {
+        setSearchTerm(e.target.value.toLowerCase());
+    }
 
-    const handleChange = (value) => {
-        console.log("value:", value);
-        setAnimal(value);
+    const handleSort = (value) => {
+        setSortOrder(value);
     };
 
     return (
@@ -41,16 +66,18 @@ const AllBooks = () => {
                     {/* Search Input */}
                     <input
                         placeholder="Search"
+                        value={searchTerm}
+                        onChange={handleSearch}
                         className="flex-grow border border-gray-300 hover:border-gray-400 focus:border-blue-400 p-2 px-4 focus:outline-none bg-white focus:ring focus:ring-blue-500/20 rounded text-gray-500 text-sm shadow-sm"
                     />
                     {/* Select Input */}
                     <div className="w-full sm:w-[200px]">
                         <Select
-                            value={animal}
-                            onChange={handleChange}
+                            value={sortOrder}
+                            onChange={handleSort}
                             options={options}
                             classNames="w-full"
-                            placeholder="Timing"
+                            placeholder="Sort By"
                         />
                     </div>
                 </div>
@@ -72,8 +99,7 @@ const AllBooks = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {Array.isArray(allBooks) &&
-                                allBooks.map((b) => (
+                            {filteredBooks.map((b) => (
                                     <tr
                                         className="text-gray-800 hover:bg-gray-100 text-sm"
                                         key={b._id}

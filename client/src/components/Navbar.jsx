@@ -9,6 +9,7 @@ const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const userInfo=useSelector((state)=>state.auth.userInfo)
     const {fetchData,loading,error}=useLogout();
+    // console.log(userInfo)
 
     const userMenu=[
         {label:"Books", to:"/",icon:""},
