@@ -35,7 +35,7 @@ const Dashboard = () => {
                     <span className="text-gray-600 font-normal text-xl">Total Books</span>
                 </div>
                 <div className="h-48 w-48 flex flex-col items-center justify-center rounded-lg bg-blue-100 shadow-lg border">
-                    <span className="text-3xl font-semibold text-blue-600">12</span>
+                    <span className="text-3xl font-semibold text-blue-600">{allTransactions.length}</span>
                     <span className="text-gray-600 font-normal text-xl">Total Transactions</span>
                 </div>
                 <div className="h-48 w-48 flex flex-col items-center justify-center rounded-lg bg-blue-100 shadow-lg border">
