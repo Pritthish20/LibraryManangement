@@ -49,6 +49,11 @@ const AllBooks = () => {
         }
     }, []);
 
+<<<<<<< HEAD
+=======
+    
+
+>>>>>>> a7b7a46da33e8956b3f80148a46e8cbbac93991c
     const handleSearch=(e) => {
         setSearchTerm(e.target.value.toLowerCase());
     }
