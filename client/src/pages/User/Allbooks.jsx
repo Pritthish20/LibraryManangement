@@ -55,7 +55,6 @@ const AllBooks = () => {
             navigate("/login")
         }
         setModal(true);
-         setBookId(b._id);
     }
 
     const handleSearch=(e) => {
@@ -140,7 +139,7 @@ const AllBooks = () => {
                                         </td>
                                         <td className="px-4 py-3 border text-center">
                                             <button
-                                            onClick={handleBorrow}
+                                            onClick={handleBorrow; setBookId(b._id); }
                                                 className={`px-2 py-1 rounded ${
                                                     b.status === "Available"
                                                         ? "bg-green-100 text-green-800"
