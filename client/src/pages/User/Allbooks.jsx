@@ -49,13 +49,7 @@ const AllBooks = () => {
         }
     }, []);
 
-    const handleBorrow =()=>{
-        if(!userInfo){
-            toast.error("Login To Borrow Book");
-            navigate("/login")
-        }
-        setModal(true);
-    }
+    
 
     const handleSearch=(e) => {
         setSearchTerm(e.target.value.toLowerCase());
@@ -139,7 +133,14 @@ const AllBooks = () => {
                                         </td>
                                         <td className="px-4 py-3 border text-center">
                                             <button
-                                            onClick={handleBorrow; setBookId(b._id); }
+                                            onClick={()=>{
+                                                if(!userInfo){
+                                                    toast.error("Login To Borrow Book");
+                                                    navigate("/login")
+                                                }
+                                                setModal(true);
+                                                setBookId(b._id);
+                                            }}
                                                 className={`px-2 py-1 rounded ${
                                                     b.status === "Available"
                                                         ? "bg-green-100 text-green-800"
