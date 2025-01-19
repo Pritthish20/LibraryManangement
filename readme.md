@@ -53,8 +53,13 @@ This project is designed to help users borrow, return books and manage books for
 
 ## **Screenshots**
 
+#### Homepage
 ![Homepage Screenshot](/assets//lib-mgmt%201.png)  
+
+#### Admin Dashboard
 ![Product Details Page Screenshot](/assets/lib-mgmt%202.png)  
+
+#### Borrowed Books
 ![Price Tracking Feature Screenshot](/assets/lib-mgmt%203.png)  
 <!-- (*Replace `#` with the URLs or paths to your screenshots in the repository*) -->
 
